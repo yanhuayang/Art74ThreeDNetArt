@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style>
+			body {
+				background-color: #ffffff;
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 style="text-align: center">我的世界</h1>
+		
+		<script src="http://threejsplaygnd.brangerbriz.net/js/three.min.js"></script>
+		<script src="http://threejsplaygnd.brangerbriz.net/js/Detector.js"></script>
+		<script>
+
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+			
+			var camera, scene, renderer;
+			var geometry, material, mesh;
+
+			function setup() {
+
+				var W = window.innerWidth, H = window.innerHeight;
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( W, H );
+				document.body.appendChild( renderer.domElement );
+
+				camera = new THREE.PerspectiveCamera( 60, W/H, 2, 10000 );
+				camera.position.z = 500;
+
+				scene = new THREE.Scene();
+				for ( var i = 0; i < 300; i ++ ) {
+					geometry = new THREE.OctahedronGeometry(20, 2);
+                    material = new THREE.MeshNormalMaterial({shading: THREE.FlatShading, wireframe: true, wireframeLinewidth: 1.53, transparent: true, opacity: 0.21});
+                    mesh = new THREE.Mesh(geometry, material);
+                    mesh.position.x = Math.random() * 1000 - 500;
+					mesh.position.y = Math.random() * 1000 - 500;
+					mesh.position.z = Math.random() * 1000 - 500;
+					mesh.rotation.x = Math.random() * 2 * Math.PI;
+					mesh.rotation.y = Math.random() * 2 * Math.PI;
+					mesh.rotation.z = Math.random() * 2 * Math.PI;
+
+
+
+
+                scene.add(mesh);
+					// your mesh code (from the geometry GUI) goes here
+				}
+
+				
+			
+
+			}
+
+			function draw() {
+
+              requestAnimationFrame(draw);
+
+				camera.position.z = Math.sin( Date.now() * 0.001) * 500;
+				camera.position.y = Math.sin( Date.now() * 0.001) * 300;
+	
+				camera.lookAt(mesh.position);
+
+			renderer.render(scene, camera);
+            
+	            }
+
+			setup();
+			draw(); 
+               
+
+		</script>
+		
+	</body>
+</html>
